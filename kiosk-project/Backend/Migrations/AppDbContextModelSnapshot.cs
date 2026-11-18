@@ -40,6 +40,9 @@ namespace Backend.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Stock")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("SubCategory")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -47,64 +50,6 @@ namespace Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("KioskItems");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Category = "Shirts",
-                            ImageUrl = "/images/dept_shirt_v1.png",
-                            Name = "Dept Shirt V.1",
-                            Price = 500.00m,
-                            SubCategory = "Polo Shirts"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Category = "Shirts",
-                            ImageUrl = "/images/dept_shirt_v2.png",
-                            Name = "Dept Shirt V.2",
-                            Price = 500.00m,
-                            SubCategory = "Polo Shirts"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Badge = "A must",
-                            Category = "Shirts",
-                            ImageUrl = "/images/school_uniform.png",
-                            Name = "School Uniform",
-                            Price = 1500.00m,
-                            SubCategory = "Uniform"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Badge = "Bestseller",
-                            Category = "Bags",
-                            ImageUrl = "/images/parser_backpack.png",
-                            Name = "Parser Backpack",
-                            Price = 500.00m,
-                            SubCategory = "Backpack"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Category = "Caps",
-                            ImageUrl = "/images/cap_2090.png",
-                            Name = "Cap 2090",
-                            Price = 400.00m,
-                            SubCategory = "All"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Category = "Lanyards",
-                            ImageUrl = "/images/lanyard_v1.png",
-                            Name = "Lanyard V.1",
-                            Price = 80.00m,
-                            SubCategory = "All"
-                        });
                 });
 
             modelBuilder.Entity("Backend.Models.Student", b =>
@@ -129,16 +74,6 @@ namespace Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Students");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BirthDate = "2004-01-01",
-                            RewardPoints = 220,
-                            SchoolId = "2026-0001",
-                            WalletBalance = 15.00m
-                        });
                 });
 #pragma warning restore 612, 618
         }
