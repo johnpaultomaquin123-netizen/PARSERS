@@ -49,10 +49,9 @@ export default function App() {
 
   const handleRegister = async (schoolId, birthDate) => {
     try {
-      const res = await axios.post(`${API_BASE}/students/register`, { schoolId, birthDate });
-      setCurrentUser(res.data);
+      await axios.post(`${API_BASE}/students/register`, { schoolId, birthDate });
       setErrorMessage('');
-      setScreen('catalog');
+      setScreen('login');
     } catch (err) {
       setErrorMessage(err.response?.data?.message || 'Registration failed');
     }
@@ -69,95 +68,122 @@ export default function App() {
   };
 
   return (
-    <div className="kiosk-container" style={{ width: '100vw', height: '100vh', backgroundColor: '#fdfbfb', position: 'relative', overflow: 'hidden', fontFamily: 'Arial, sans-serif' }}>
-      
-      {screen === 'idle' && (
-        <WelcomeScreen onStart={() => setScreen('auth')} />
-      )}
+    <div style={{
+      width: '100vw',
+      height: '100vh',
+      backgroundColor: '#a91b1b',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      overflow: 'hidden',
+      margin: 0,
+      padding: 0,
+      boxSizing: 'border-box'
+    }}>
+      {/* Fixed 1080x800px Kiosk Screen Frame */}
+      <div className="kiosk-container" style={{
+        width: '1080px',
+        height: '800px',
+        backgroundColor: '#fdfbfb',
+        boxShadow: '0 12px 40px rgba(0,0,0,0.4)',
+        border: '4px solid #a91b1b',
+        borderRadius: '16px',
+        position: 'relative',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        fontFamily: 'Arial, sans-serif',
+        boxSizing: 'border-box'
+      }}>
+        
+        {screen === 'idle' && (
+          <WelcomeScreen onStart={() => setScreen('auth')} />
+        )}
 
-      {screen === 'auth' && (
-        <AuthScreen 
-          onSelectMode={(mode) => setScreen(mode)} 
-          onBack={() => setScreen('idle')} 
-        />
-      )}
-
-      {screen === 'login' && (
-        <LoginScreen 
-          onLogin={handleLogin} 
-          onBack={() => setScreen('auth')} 
-          errorMessage={errorMessage} 
-        />
-      )}
-
-      {screen === 'register' && (
-        <RegisterScreen 
-          onRegister={handleRegister} 
-          onBack={() => setScreen('auth')} 
-          errorMessage={errorMessage} 
-        />
-      )}
-
-      {screen === 'catalog' && (
-        <>
-          <CatalogView 
-            items={items}
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-            selectedSubCategory={selectedSubCategory}
-            setSelectedSubCategory={setSelectedSubCategory}
-            currentUser={currentUser}
-            onOpenRewards={() => setScreen('rewards')}
-            onSelectItem={(item) => setActiveItem(item)}
+        {screen === 'auth' && (
+          <AuthScreen 
+            onSelectMode={(mode) => setScreen(mode)} 
+            onBack={() => setScreen('idle')} 
           />
+        )}
 
-          {/* Persistent Bottom Cart Bar */}
-          <div 
-            onClick={() => setScreen('cart')} 
-            style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '70px', backgroundColor: '#fff', borderTop: '1px solid #ddd', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 2rem', cursor: 'pointer', zIndex: 50, boxSizing: 'border-box' }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span style={{ fontSize: '1.5rem' }}>🛒</span>
-              <span style={{ fontWeight: 'bold', color: '#a91b1b' }}>Show Cart</span>
-              <span style={{ fontSize: '0.85rem', color: '#666' }}>({cart.reduce((sum, i) => sum + i.quantity, 0)} items)</span>
+        {screen === 'login' && (
+          <LoginScreen 
+            onLogin={handleLogin} 
+            onBack={() => setScreen('auth')} 
+            errorMessage={errorMessage} 
+          />
+        )}
+
+        {screen === 'register' && (
+          <RegisterScreen 
+            onRegister={handleRegister} 
+            onBack={() => setScreen('auth')} 
+            errorMessage={errorMessage} 
+          />
+        )}
+
+        {screen === 'catalog' && (
+          <>
+            <CatalogView 
+              items={items}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+              selectedSubCategory={selectedSubCategory}
+              setSelectedSubCategory={setSelectedSubCategory}
+              currentUser={currentUser}
+              onOpenRewards={() => setScreen('rewards')}
+              onSelectItem={(item) => setActiveItem(item)}
+            />
+
+            {/* Persistent Bottom Cart Bar */}
+            <div 
+              onClick={() => setScreen('cart')} 
+              style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '70px', backgroundColor: '#fff', borderTop: '1px solid #ddd', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 2rem', cursor: 'pointer', zIndex: 50, boxSizing: 'border-box' }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span style={{ fontSize: '1.5rem' }}>🛒</span>
+                <span style={{ fontWeight: 'bold', color: '#a91b1b' }}>Show Cart</span>
+                <span style={{ fontSize: '0.85rem', color: '#666' }}>({cart.reduce((sum, i) => sum + i.quantity, 0)} items)</span>
+              </div>
+              <span style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#333' }}>▲</span>
             </div>
-            <span style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#333' }}>▲</span>
-          </div>
-        </>
-      )}
+          </>
+        )}
 
-      {activeItem && (
-        <ProductModal 
-          item={activeItem} 
-          onClose={() => setActiveItem(null)} 
-          onAddToCart={addToCart} 
-        />
-      )}
+        {activeItem && (
+          <ProductModal 
+            item={activeItem} 
+            onClose={() => setActiveItem(null)} 
+            onAddToCart={addToCart} 
+          />
+        )}
 
-      {screen === 'rewards' && (
-        <RewardsScreen 
-          currentUser={currentUser} 
-          onBack={() => setScreen('catalog')} 
-          onRedeemDiscount={(amt) => { setAppliedDiscount(amt); setScreen('catalog'); }} 
-        />
-      )}
+        {screen === 'rewards' && (
+          <RewardsScreen 
+            currentUser={currentUser} 
+            onBack={() => setScreen('catalog')} 
+            onRedeemDiscount={(amt) => { setAppliedDiscount(amt); setScreen('catalog'); }} 
+          />
+        )}
 
-      {screen === 'cart' && (
-        <CartView 
-          cart={cart}
-          appliedDiscount={appliedDiscount}
-          onBack={() => setScreen('catalog')}
-          onCancelOrder={() => { setCart([]); setScreen('catalog'); }}
-          onCheckout={() => setScreen('receipt')}
-        />
-      )}
+        {screen === 'cart' && (
+          <CartView 
+            cart={cart}
+            appliedDiscount={appliedDiscount}
+            onBack={() => setScreen('catalog')}
+            onCancelOrder={() => { setCart([]); setScreen('catalog'); }}
+            onCheckout={() => setScreen('receipt')}
+          />
+        )}
 
-      {screen === 'receipt' && (
-        <ReceiptScreen 
-          onHome={() => { setCart([]); setAppliedDiscount(0); setScreen('idle'); }} 
-        />
-      )}
+        {screen === 'receipt' && (
+          <ReceiptScreen 
+            onHome={() => { setCart([]); setAppliedDiscount(0); setScreen('idle'); }} 
+          />
+        )}
 
+      </div>
     </div>
   );
 }

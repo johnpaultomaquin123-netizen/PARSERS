@@ -2,69 +2,34 @@ import React from 'react';
 
 export default function AuthScreen({ onSelectMode, onBack }) {
   return (
-    <div style={{ 
-      height: '100%', 
-      display: 'flex', 
-      flexDirection: 'column', 
-      alignItems: 'center', 
-      justifyContent: 'center', 
-      padding: '2rem',
-      backgroundColor: '#fdfbfb'
-    }}>
-      <h2 style={{ color: '#8b0000', marginBottom: '2rem', fontSize: '1.8rem', fontWeight: 'bold' }}>
-        PARSERS MERCHANDISE PORTAL
-      </h2>
+    <div style={{ height: '100%', padding: '4rem', backgroundColor: '#fdfbfb', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', boxSizing: 'border-box', position: 'relative' }}>
+      
+      {/* Top Back Button */}
+      <button 
+        onClick={onBack} 
+        style={{ position: 'absolute', top: '2rem', left: '2rem', background: 'none', border: 'none', color: '#a91b1b', fontSize: '1rem', cursor: 'pointer', fontWeight: 'bold' }}
+      >
+        &lt; Back to Welcome
+      </button>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '320px' }}>
-        <button 
-          onClick={() => onSelectMode('login')} 
-          style={{ 
-            padding: '1.2rem', 
-            fontSize: '1.2rem', 
-            backgroundColor: '#fff', 
-            color: '#8b0000', 
-            border: '2px solid #8b0000', 
-            borderRadius: '12px', 
-            cursor: 'pointer', 
-            fontWeight: 'bold',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.03)'
-          }}
+      <div style={{ maxWidth: '400px', width: '100%', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <h2 style={{ color: '#a91b1b', fontSize: '2.2rem', fontWeight: '800', marginBottom: '0.5rem' }}>Get Started</h2>
+        
+        <button
+          onClick={() => onSelectMode('login')}
+          style={{ padding: '1.2rem', backgroundColor: '#a91b1b', color: '#fff', fontSize: '1.1rem', fontWeight: 'bold', border: 'none', borderRadius: '10px', cursor: 'pointer' }}
         >
-          Login
+          Login with School ID
         </button>
 
-        <button 
-          onClick={() => onSelectMode('register')} 
-          style={{ 
-            padding: '1.2rem', 
-            fontSize: '1.2rem', 
-            backgroundColor: '#a91b1b', 
-            color: '#fff', 
-            border: 'none', 
-            borderRadius: '12px', 
-            cursor: 'pointer', 
-            fontWeight: 'bold',
-            boxShadow: '0 4px 12px rgba(169,27,27,0.2)'
-          }}
+        <button
+          onClick={() => onSelectMode('register')}
+          style={{ padding: '1.2rem', backgroundColor: '#fff', color: '#a91b1b', border: '2px solid #a91b1b', fontSize: '1.1rem', fontWeight: 'bold', borderRadius: '10px', cursor: 'pointer' }}
         >
-          Register
+          Register New ID
         </button>
       </div>
 
-      <button 
-        onClick={onBack} 
-        style={{ 
-          marginTop: '2.5rem', 
-          background: 'none', 
-          border: 'none', 
-          color: '#666', 
-          cursor: 'pointer',
-          fontSize: '1rem',
-          fontWeight: '500'
-        }}
-      >
-        &lt; Back to Home
-      </button>
     </div>
   );
 }
